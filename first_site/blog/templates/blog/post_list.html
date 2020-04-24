@@ -1,0 +1,22 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        {% for post in posts %}
+        <div class="col-md-6">
+            <div class="img-thumbnail">
+                <div class="date">
+                    <a>published: {{ post.published_date }}</a>
+                </div>
+                <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2>
+                Author: {{post.author}}<br>
+                <!-- <p>{{ post.text|linebreaksbr }}</p> -->
+            </div>
+            <br>
+            <br>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
