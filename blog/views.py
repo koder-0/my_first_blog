@@ -1,7 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
+from django.contrib.auth import authenticate, login, logout
+from django.urls import reverse
 from .models import Post
-from .forms import PostForm
+from .forms import PostForm, UserLoginForm
 from django.http import HttpResponse
 
 # Create your views here.
@@ -45,3 +47,31 @@ def post_edit(request, pk):
     else:
         form = PostForm(instance=post)
     return render(request, 'blog/post_edit.html', {'form': form})
+
+
+def user_login_view(request):
+    if request.method == "POST":
+        form = UserLoginForm(request.POST)
+        if form.is_valid():
+            username = request.POST['username']
+            password = request.POST['password']
+            user = authenticate(username=username, password=password)
+            if user:
+                if user.is_active:
+                    login(request, user)
+                    return redirect(reverse('post_list'))
+                else:
+                    return HttpResponse("User is not active")
+            else:
+                return HttpResponse("User is None")
+    else:
+        form = UserLoginForm()
+        context = {
+            'form': form,
+        }
+        return render(request, 'blog/login.html', context)
+
+
+def user_logout(request):
+    logout(request)
+    return redirect('post_list')

@@ -1,0 +1,60 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" style="color: #C2515C; font-family: 'Lobster', cursive; font-size: x-large;">
+        Kaushal's Geeky Fundae
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-sm-2" style="justify-content: center;">
+            <li class="nav-item active" style="padding-top: 10pt;">
+                <a class="nav-link" style="padding-top: 10pt;" href="{% url 'post_list' %}">
+                    Home
+                    <span class="sr-only">
+                        (current)
+                    </span>
+                </a>
+            </li>
+            <li class="nav-item active" style="padding-top: 10pt;">
+                {% if user.is_authenticated %}
+                <a href="{% url 'post_new' %}" style="padding-top: 10pt;" class="nav-link">
+                    Add Post
+                    <span class="sr-only">
+                    </span>
+                </a>
+                {% endif %}
+            </li>
+            <li class="nav-item active" style="padding-top: 10pt;">
+                <form class="form-inline" style="padding-top: 5pt;">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </li>
+        </ul>
+        <ul class="navbar-nav">
+            {% if user.is_authenticated %}
+            <li class="nav-item dropdown" style="padding-top: 10pt;">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="true">
+                    <span>
+                        Hi! {{user}}
+                    </span>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{% url 'user_logout' %}">
+                        Logout
+                    </a>
+                </div>
+            </li>
+            {% else %}
+            <li class="nav-item" style="padding-top: 10pt;">
+                <a href="{% url 'user_login' %}" class="nav-link" style="padding-top: 10pt;">
+                    Login
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
