@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from .models import Post
-from .forms import PostForm, UserLoginForm
+from .forms import PostForm, UserLoginForm, UserRegistrationForm
 from django.http import HttpResponse
 
 # Create your views here.
@@ -69,9 +69,22 @@ def user_login_view(request):
         context = {
             'form': form,
         }
-        return render(request, 'blog/login.html', context)
+        return render(request, 'blog/login.html', {'form': form})
 
 
 def user_logout(request):
     logout(request)
     return redirect('post_list')
+
+
+def user_register(request):
+    if request.method == 'POST':
+        form = UserRegistrationForm(request.POST)
+        if form.is_valid():
+            new_user = form.save(commit=False)
+            new_user.set_password(form.cleaned_data['password'])
+            new_user.save()
+            return redirect('post_list')
+    else:
+        form = UserRegistrationForm()
+    return render(request, 'registration/user_register.html', {'form': form})

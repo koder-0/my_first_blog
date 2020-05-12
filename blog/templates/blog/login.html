@@ -4,6 +4,16 @@
 <form method="post">
     {% csrf_token %}
     {{form.as_p}}
+    <small>
+        <a href="{% url 'user_register' %}">
+            Register
+        </a>
+        |
+        <a href="{% url 'password_reset' %}">
+            Forgotten Password?
+        </a>
+    </small>
+    <br>
     <input type="submit" value="Login" class="btn btn-outline-success">
 </form>
 {% endblock %}
